@@ -1,7 +1,8 @@
 // api.js
 //https://ans-siau.onrender.com/api
 // Base URL of your backend API
-const API_BASE_URL = 'http://localhost:5502'; // Replace with your actual backend URL
+
+const API_BASE_URL = 'http://localhost:5001/api'; // Replace with your actual backend URL
 
 /**
  * Registers a new name with the provided wallet address.

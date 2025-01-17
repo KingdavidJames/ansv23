@@ -121,7 +121,7 @@ async function transferAMB(amount) {
         localStorage.setItem('payeeName', nameChosenEl.textContent.toLowerCase());
         localStorage.setItem('payeeAddress', RECIPIENT_ADDRESS);
 
-        
+
         // Redirect to order-success.html
         window.location.href = 'order-success.html';
     } catch (error) {
@@ -315,19 +315,36 @@ async function handleMetaMaskPayment() {
         const amountInWei = ethers.utils.parseUnits(totalAMB.toString(), 18);
 
         localStorage.setItem('amount', totalAMB);
+
+
+        // Get the payer's wallet address
+        const payerAddress = await signer.getAddress();
+
+        // 2) Build the data object (EXCLUDING transactionHash, payeeAddress, transactionTime)
+        const dataObject = {
+            payerAddress: payerAddress,       // or from localStorage
+            yearsPaid: yearDetails.textContent.toString(), // or parseInt(...) if you want a number
+            Name: nameChosenEl.textContent.toLowerCase(),
+            amount: totalAMB.toString(),
+            // you can add more fields if needed, but DO NOT add transactionHash, transactionTime, payeeAddress
+        };
+
+        // Convert dataObject -> JSON -> Hex
+        const dataJson = JSON.stringify(dataObject);
+        const dataHex = ethers.utils.hexlify(ethers.utils.toUtf8Bytes(dataJson));
+
         // Confirm with the user before initiating the transfer
         const userConfirmed = confirm(`Do you want to send ${totalAMB} AMB to the recipient?`);
         if (!userConfirmed) {
             return;
         }
 
-        // Get the payer's wallet address
-        const payerAddress = await signer.getAddress();
-
+        
         // Initiate the transfer
         const tx = await signer.sendTransaction({
             to: RECIPIENT_ADDRESS,
             value: amountInWei,
+            data: dataHex, // Include data in the transaction
         });
 
         console.log('Transaction sent:', tx.hash);
@@ -354,7 +371,7 @@ async function handleMetaMaskPayment() {
         localStorage.setItem('yearsPaid', yearDetails.textContent.toString());
         localStorage.setItem('payeeName', nameChosenEl.textContent.toLowerCase());
         localStorage.setItem('payeeAddress', RECIPIENT_ADDRESS);
-        
+
         // Redirect to order-success.html
         window.location.href = 'order-success.html';
     } catch (error) {

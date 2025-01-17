@@ -14,7 +14,7 @@ const app = express();
 // https://air-daonameservice.vercel.app
 // Middleware
 app.use(cors({
-    origin: 'http://localhost:5501',
+    origin: '*',
 }));
 app.use(express.json());
 
@@ -157,7 +157,7 @@ app.get('/api/decrypt', async (req, res) => {
 });
 
 // Start the Server
-const PORT = process.env.PORT || 5502;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
