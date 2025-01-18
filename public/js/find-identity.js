@@ -1,14 +1,5 @@
-/*************************************
- * Simulated CSV Data (in-memory)
- *************************************/
+
 import { checkName } from "./api.js";
-// Merge localStorage 'takenNames' with our default array
-const storedTakenNames = JSON.parse(localStorage.getItem("takenNames")) || [];
-let takenNames = [
-    // Add any default taken names here, if applicable
-];
-// Merge them
-takenNames = [...takenNames, ...storedTakenNames];
 
 // DOM Elements for Name Search and Registration
 const searchInput = document.getElementById("dynamic_searchbar");
@@ -151,8 +142,8 @@ const pYearEls = document.querySelectorAll(".p-year");
 const modalTotalAMBEl = document.getElementById("modalTotalAMB");
 
 let yearCount = 1;
-let basePrice = 2;      // 8 AMB per year
-let networkFee = 1;     // 2 AMB per year
+let basePrice = 2;      
+let networkFee = 1;    
 
 function setYearCount(value) {
     yearCount = value;
